@@ -11,11 +11,7 @@ app.use(express.json());
 
 // ── API: send inquiry email ───────────────────────────────────────────────────
 app.post("/api/send", async (req, res) => {
-  // Lazy init — fails gracefully if RESEND_API_KEY not set
-  if (!process.env.RESEND_API_KEY) {
-    return res.status(500).json({ error: "RESEND_API_KEY is not configured. Add it to your .env file." });
-  }
-  const resend = new Resend(process.env.RESEND_API_KEY);
+  const resend = new Resend("re_CYpi5Eqp_G8u66YajwmcEtFSUsecUK1mu");
 
   const { name, email, service, budget, timeline, message } = req.body;
 
