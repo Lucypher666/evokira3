@@ -766,12 +766,18 @@ async function submitForm(e) {
         message:  document.getElementById('f_message').value,
       }),
     });
-    if (!res.ok) throw new Error();
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      console.error('API Error:', errorData);
+      throw new Error(errorData.error || 'Unknown error');
+    }
     document.getElementById('successEmail').textContent = document.getElementById('f_email').value;
     document.getElementById('formCard').style.display   = 'none';
     document.getElementById('successBox').style.display = 'block';
-  } catch {
+  } catch (err) {
+    console.error('Submission error:', err);
     document.getElementById('errorBox').style.display = 'block';
+    document.getElementById('errorBox').innerHTML = `Something went wrong: ${err.message}. Please email us directly at <a href="mailto:evokira.services@gmail.com" style="color:#fca5a5;">evokira.services@gmail.com</a>`;
     btn.textContent = 'Send inquiry →';
     btn.disabled = false;
   }
