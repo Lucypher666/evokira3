@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Evokira — Custom Software & Web Development</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script>
+  const CONTACT_EMAIL = "evokira.services@gmail.com";
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;background:#08080B;color:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* Nav */
+.nav{position:sticky;top:0;z-index:100;background:rgba(8,8,11,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.07);}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo img{height:26px;filter:brightness(0) invert(1);display:block;}
+.nav-logo-text{font-size:20px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none;}
+.nav-links{display:flex;gap:28px;}
+.nav-links a{font-size:14px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:#fff;}
+.hamburger{display:none;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:4px 8px;}
+@media(max-width:768px){.hamburger{display:block;}}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(8,8,11,0.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);padding:20px 24px;z-index:99;flex-direction:column;gap:0;}
+.mobile-menu a{display:block;padding:14px 0;font-size:16px;color:rgba(255,255,255,0.8);text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+.mobile-menu a:last-child{border-bottom:none;}
+.mobile-menu.open{display:flex;}
+.btn-nav{background:rgba(30,58,138,0.6);color:#fff;padding:8px 20px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;border:1px solid rgba(96,165,250,0.3);transition:all .2s;}
+.btn-nav:hover{background:rgba(30,58,138,0.9);border-color:rgba(96,165,250,0.6);}
+
+/* Announce */
+.announce{background:rgba(13,13,17,0.9);border-bottom:1px solid rgba(255,255,255,0.06);text-align:center;padding:10px 24px;font-size:12px;color:rgba(255,255,255,0.6);}
+.announce a{color:#fff;font-weight:600;text-decoration:none;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;display:inline-block;margin-right:8px;vertical-align:middle;animation:pulse 2s infinite;}
+
+/* Grid bg */
+.grid-bg{background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:64px 64px;}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;padding:96px 0 120px;}
+.hero-inner{position:relative;max-width:1200px;margin:0 auto;padding:0 24px;text-align:center;}
+.orb{position:absolute;border-radius:50%;pointer-events:none;}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:32px;}
+h1.hero-h{font-size:clamp(44px,7vw,88px);font-weight:800;line-height:1.05;letter-spacing:-.04em;margin:0 auto 24px;max-width:900px;}
+.grad-em{background:linear-gradient(135deg,#fff,#93c5fd,#60a5fa);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-family:Georgia,serif;font-style:italic;font-weight:400;}
+.hero-sub{font-size:19px;color:rgba(255,255,255,0.55);max-width:560px;margin:0 auto 40px;line-height:1.7;}
+.hero-btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:32px;}
+.btn-white{background:#fff;color:#08080B;padding:14px 28px;border-radius:14px;font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;box-shadow:0 8px 32px rgba(255,255,255,0.1);transition:transform .2s,box-shadow .2s;}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,255,255,0.15);}
+.btn-ghost{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;padding:14px 28px;border-radius:14px;font-weight:500;font-size:15px;text-decoration:none;transition:all .2s;}
+.btn-ghost:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.22);}
+.trust{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:13px;color:rgba(255,255,255,0.4);}
+.trust span{display:flex;align-items:center;gap:6px;}
+
+/* Dashboard mock */
+.dash-wrap{margin-top:80px;position:relative;}
+.dash-glow{position:absolute;inset:0 0 auto;height:80px;background:linear-gradient(to bottom,rgba(30,58,138,0.25),transparent);filter:blur(24px);top:-24px;}
+.dash-card{border:1px solid rgba(255,255,255,0.08);border-radius:24px;overflow:hidden;max-width:900px;margin:0 auto;box-shadow:0 40px 80px rgba(0,0,0,0.5);background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));}
+.win-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);}
+.win-dot{width:12px;height:12px;border-radius:50%;}
+.win-url{flex:1;margin:0 16px;height:28px;border-radius:8px;background:rgba(255,255,255,0.05);display:flex;align-items:center;padding-left:12px;font-size:11px;color:rgba(255,255,255,0.3);}
+.dash-body{display:grid;grid-template-columns:200px 1fr;}
+.dash-sidebar{border-right:1px solid rgba(255,255,255,0.05);padding:16px;background:rgba(255,255,255,0.01);}
+.dash-nav-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;margin-bottom:2px;font-size:13px;color:rgba(255,255,255,0.4);}
+.dash-nav-item.active{background:rgba(30,58,138,0.3);color:#93c5fd;}
+.dash-main{padding:24px;}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.kpi{padding:16px;border-radius:14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);}
+.kpi-label{font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:4px;}
+.kpi-val{font-size:22px;font-weight:700;}
+.kpi-delta{font-size:11px;color:#4ade80;margin-top:2px;}
+.chart-box{padding:16px;border-radius:14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);}
+
+/* Marquee */
+
+
+
+
+
+
+/* Section base */
+section{padding:96px 0;}
+.container{max-width:1200px;margin:0 auto;padding:0 24px;}
+.section-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:rgba(30,58,138,0.25);border:1px solid rgba(96,165,250,0.3);font-size:11px;color:#93c5fd;letter-spacing:.04em;font-weight:500;margin-bottom:16px;}
+.section-tag span{width:6px;height:6px;border-radius:50%;background:#60a5fa;box-shadow:0 0 6px #60a5fa;}
+h2.sec-h{font-size:clamp(34px,5vw,62px);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:16px;}
+.sec-sub{font-size:17px;color:rgba(255,255,255,0.5);line-height:1.7;max-width:520px;}
+
+/* Cards */
+.card{background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.08);border-radius:20px;backdrop-filter:blur(20px);transition:all .25s ease;}
+.card:hover{border-color:rgba(96,165,250,0.35);background:linear-gradient(180deg,rgba(30,58,138,0.1),rgba(255,255,255,0.01));}
+
+/* Services */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:16px;}
+.svc-card-big{grid-column:1/3;grid-row:1/3;padding:32px;position:relative;overflow:hidden;}
+.svc-card{padding:28px;}
+.svc-icon{font-size:24px;margin-bottom:16px;opacity:.8;}
+.code-mock{margin-top:24px;border-radius:14px;background:rgba(8,8,11,0.85);border:1px solid rgba(255,255,255,0.07);padding:20px;font-family:monospace;font-size:12px;line-height:1.8;}
+.code-dots{display:flex;gap:6px;margin-bottom:12px;}
+.code-dot{width:10px;height:10px;border-radius:50%;opacity:.7;}
+
+/* Stats */
+.stats-band{border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(13,13,17,0.4);padding:48px 24px;}
+.stats-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center;}
+.stat-val{font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#fff,#93c5fd,#60a5fa);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-label{font-size:13px;color:rgba(255,255,255,0.45);margin-top:4px;}
+
+/* Process */
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.step-num{width:40px;height:40px;border-radius:12px;background:rgba(30,58,138,0.3);border:1px solid rgba(96,165,250,0.3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#93c5fd;margin-right:12px;}
+
+/* Work */
+.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.work-thumb{aspect-ratio:16/9;border-radius:14px;margin-bottom:20px;position:relative;overflow:hidden;}
+.work-thumb-overlay{position:absolute;bottom:16px;left:16px;right:16px;background:rgba(8,8,11,0.82);backdrop-filter:blur(12px);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.08);}
+.dot-pattern{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.08) 1px,transparent 1px);background-size:20px 20px;}
+
+/* Pricing */
+.pricing-card{border-radius:24px;padding:48px 56px;background:linear-gradient(160deg,rgba(30,58,138,0.22),rgba(30,64,175,0.05));border:1px solid rgba(96,165,250,0.28);position:relative;overflow:hidden;}
+.pricing-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;position:relative;}
+.pricing-title{font-size:clamp(40px,5vw,68px);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:16px;}
+.feature-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px;}
+.feature-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,0.75);}
+.check{color:#60a5fa;font-size:15px;margin-top:1px;flex-shrink:0;}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:8px;max-width:720px;margin:0 auto;}
+.faq-item{overflow:hidden;}
+.faq-btn{width:100%;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;background:none;border:none;color:#fff;cursor:pointer;text-align:left;font-family:inherit;}
+.faq-btn:hover .faq-q{color:#93c5fd;}
+.faq-q{font-weight:600;font-size:15px;transition:color .2s;}
+.faq-icon{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:transform .25s;line-height:1;}
+.faq-answer{padding:0 24px 20px;font-size:14px;color:rgba(255,255,255,0.55);line-height:1.8;display:none;}
+.faq-answer.open{display:block;}
+.faq-icon.open{transform:rotate(45deg);}
+
+/* Contact form */
+.form-wrap{max-width:780px;margin:0 auto;padding:0 24px;}
+.form-card{padding:44px 48px;}
+.form-grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-label{font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;display:block;}
+.form-input,.form-textarea{width:100%;padding:12px 16px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:14px;outline:none;font-family:inherit;box-sizing:border-box;transition:border-color .2s,box-shadow .2s;}
+.form-input:focus,.form-textarea:focus{border-color:rgba(96,165,250,0.5);box-shadow:0 0 0 3px rgba(96,165,250,0.08);}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,0.22);}
+.form-textarea{resize:vertical;line-height:1.7;}
+.pills{display:flex;flex-wrap:wrap;gap:8px;}
+.pill{padding:8px 18px;border-radius:999px;font-size:13px;cursor:pointer;transition:all .18s;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.55);font-family:inherit;}
+.pill:hover{border-color:rgba(96,165,250,0.35);color:rgba(255,255,255,0.8);}
+.pill.active{background:rgba(96,165,250,0.15);border-color:rgba(96,165,250,0.55);color:#93c5fd;font-weight:600;}
+.btn-submit{width:100%;padding:16px;border-radius:14px;background:#fff;color:#08080B;font-weight:700;font-size:16px;cursor:pointer;border:none;transition:all .2s;box-shadow:0 8px 32px rgba(255,255,255,0.08);}
+.btn-submit:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 12px 40px rgba(255,255,255,0.13);}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;}
+.form-note{font-size:12px;color:rgba(255,255,255,0.25);text-align:center;margin-top:12px;}
+.error-box{font-size:13px;color:#f87171;background:rgba(239,68,68,0.08);padding:12px 16px;border-radius:10px;border:1px solid rgba(239,68,68,0.2);display:none;}
+.success-box{padding:64px 48px;text-align:center;display:none;}
+.success-emoji{font-size:52px;margin-bottom:20px;}
+.success-h{font-size:28px;font-weight:700;margin-bottom:12px;}
+.success-p{color:rgba(255,255,255,0.55);line-height:1.7;max-width:380px;margin:0 auto;}
+.btn-again{margin-top:28px;padding:10px 24px;border-radius:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#fff;cursor:pointer;font-size:14px;font-family:inherit;transition:all .2s;}
+.btn-again:hover{background:rgba(255,255,255,0.14);}
+
+/* Footer */
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:64px 24px 40px;}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+.footer-bottom{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);flex-wrap:wrap;gap:12px;font-size:12px;color:rgba(255,255,255,0.3);}
+.footer-wordmark{text-align:center;font-size:min(15vw,160px);font-weight:800;letter-spacing:-.06em;line-height:1;background:linear-gradient(180deg,rgba(255,255,255,0.05),transparent);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;user-select:none;margin-top:48px;}
+.footer-col h4{font-size:13px;font-weight:600;margin-bottom:16px;}
+.footer-col a,.footer-col p{font-size:13px;color:rgba(255,255,255,0.4);display:block;margin-bottom:10px;text-decoration:none;cursor:pointer;transition:color .2s;}
+.footer-col a:hover{color:rgba(255,255,255,0.75);}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+100%{transform:translateX(-50%)}}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:#08080B;}
+::-webkit-scrollbar-thumb{background:rgba(96,165,250,0.3);border-radius:3px;}
+@media(max-width:768px){
+.nav-links{display:none;}
+.btn-nav{display:none;}
+.hamburger{display:block;}
+.nav-inner{padding:0 16px;}
+.hero{padding:64px 0 80px;}
+.hero-inner{padding:0 16px;}
+h1.hero-h{font-size:clamp(36px,10vw,64px);}
+.hero-sub{font-size:16px;}
+.hero-btns{flex-direction:column;align-items:center;}
+.btn-white,.btn-ghost{width:100%;justify-content:center;}
+.dash-body{grid-template-columns:1fr;}
+.dash-sidebar{display:none;}
+.kpi-grid{grid-template-columns:1fr 1fr;}
+.services-grid{grid-template-columns:1fr;}
+.svc-card-big{grid-column:1;grid-row:auto;}
+.stats-grid{grid-template-columns:1fr 1fr!important;gap:20px;}
+.process-grid{grid-template-columns:1fr 1fr;}
+.work-grid{grid-template-columns:1fr;}
+.pricing-inner{grid-template-columns:1fr;gap:32px;}
+.pricing-card{padding:32px 24px;}
+.form-grid2{grid-template-columns:1fr;}
+.form-card{padding:28px 20px;}
+.footer-grid{grid-template-columns:1fr 1fr;gap:24px;}
+.footer-bottom{flex-direction:column;text-align:center;}
+.footer-wordmark{font-size:18vw;}
+section{padding:64px 0;}
+.container{padding:0 16px;}
+.form-wrap{padding:0 16px;}
+.announce{font-size:11px;padding:8px 12px;}
+.referral-steps{grid-template-columns:1fr!important;}
+.referral-commission{grid-template-columns:1fr!important;gap:24px!important;}
+h2.sec-h{font-size:clamp(28px,8vw,48px);}
+.pills{gap:6px;}
+.pill{font-size:12px;padding:7px 14px;}
+.trust{gap:12px;font-size:12px;}
+}
+@media(max-width:480px){
+.process-grid{grid-template-columns:1fr;}
+.footer-grid{grid-template-columns:1fr;}
+.kpi-grid{grid-template-columns:1fr;}
+.stats-grid{grid-template-columns:1fr!important;}
+.pricing-card{padding:24px 16px;}
+.nav-logo-text{font-size:17px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Announcement -->
+<div class="announce">
+  <span class="live-dot"></span>
+  Accepting new projects — 
+  <a href="https://wa.me/918010496134" target="_blank">Chat with us →</a>
+  &nbsp;·&nbsp;
+  <a href="mailto:evokira.services@gmail.com">evokira.services@gmail.com</a>
+</div>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <!-- Logo: replace src with your real logo path -->
+    <a href="#" class="nav-logo-text">EVOKIRA</a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#work">Work</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#referral">Referral</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">☰</button>
+    <a href="https://wa.me/918010496134" target="_blank" class="btn-nav">Chat with us</a>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#process" onclick="toggleMenu()">Process</a>
+  <a href="#work" onclick="toggleMenu()">Work</a>
+  <a href="#pricing" onclick="toggleMenu()">Pricing</a>
+  <a href="#referral" onclick="toggleMenu()">Referral</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <a href="https://wa.me/918010496134" target="_blank" onclick="toggleMenu()">Chat with us</a>
+</div>
+
+<!-- Hero -->
+<section class="hero grid-bg">
+  <div class="orb" style="width:600px;height:600px;background:#1e3a8a;filter:blur(130px);opacity:.4;top:-160px;left:-160px;"></div>
+  <div class="orb" style="width:500px;height:500px;background:#1e40af;filter:blur(120px);opacity:.2;top:-80px;right:-80px;"></div>
+  <div class="hero-inner">
+    <div style="display:flex;justify-content:center;margin-bottom:32px;">
+      <div class="badge">
+        <span class="live-dot"></span>
+        Trusted by 80+ founders & teams worldwide
+      </div>
+    </div>
+
+    <h1 class="hero-h">
+      Software that <span class="grad-em">moves</span><br/>
+      your business <span class="grad-em">forward.</span>
+    </h1>
+
+    <p class="hero-sub">Beautiful, scalable web & mobile apps for ambitious teams — shipped in weeks, not quarters.</p>
+
+    <div class="hero-btns">
+      <a href="#contact" class="btn-white">Start a project →</a>
+      <a href="#work" class="btn-ghost">▶ See our work</a>
+    </div>
+
+    <div class="trust">
+      <span><span style="color:#60a5fa;">✓</span> Custom scoping</span>
+      <span><span style="color:#60a5fa;">✓</span> Senior engineers only</span>
+      <span><span style="color:#60a5fa;">✓</span> Fast turnaround</span>
+    </div>
+
+    <!-- Dashboard mock -->
+    <div class="dash-wrap">
+      <div class="dash-glow"></div>
+      <div class="dash-card">
+        <div class="win-bar">
+          <div class="win-dot" style="background:#ef4444;opacity:.7;"></div>
+          <div class="win-dot" style="background:#f59e0b;opacity:.7;"></div>
+          <div class="win-dot" style="background:#22c55e;opacity:.7;"></div>
+          <div class="win-url">evokira.com/dashboard</div>
+        </div>
+        <div class="dash-body">
+          <div class="dash-sidebar">
+            <div class="dash-nav-item active">▦ Overview</div>
+            <div class="dash-nav-item">∿ Analytics</div>
+            <div class="dash-nav-item">⊙ Customers</div>
+            <div class="dash-nav-item">◷ Activity</div>
+          </div>
+          <div class="dash-main">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+              <div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:2px;">Welcome back</div>
+                <div style="font-size:17px;font-weight:600;">Project: Acme Cloud</div>
+              </div>
+              <div style="padding:4px 10px;border-radius:8px;background:rgba(74,222,128,0.1);color:#4ade80;font-size:11px;font-weight:600;">● Live</div>
+            </div>
+            <div class="kpi-grid">
+              <div class="kpi"><div class="kpi-label">Active users</div><div class="kpi-val">24,891</div><div class="kpi-delta">↑ 12.4%</div></div>
+              <div class="kpi"><div class="kpi-label">Conversion</div><div class="kpi-val">4.82%</div><div class="kpi-delta">↑ 2.1%</div></div>
+              <div class="kpi"><div class="kpi-label">Revenue</div><div class="kpi-val">$182k</div><div class="kpi-delta">↑ 18.7%</div></div>
+            </div>
+            <div class="chart-box">
+              <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:8px;">Performance — last 30 days</div>
+              <svg width="100%" height="80" viewBox="0 0 400 80" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#60a5fa" stop-opacity=".4"/>
+                    <stop offset="100%" stop-color="#60a5fa" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,60 C50,52 100,30 160,28 C220,26 270,15 330,12 L400,8 L400,80 L0,80Z" fill="url(#cg)"/>
+                <path d="M0,60 C50,52 100,30 160,28 C220,26 270,15 330,12 L400,8" fill="none" stroke="#60a5fa" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services">
+  <div class="container">
+    <div style="margin-bottom:56px;">
+      <div class="section-tag"><span></span>What we do</div>
+      <h2 class="sec-h">Everything you need to<br/><span class="grad-em">launch & scale.</span></h2>
+      <p class="sec-sub">Full-stack design, engineering & infra under one roof.</p>
+    </div>
+    <div class="services-grid">
+      <div class="card svc-card-big">
+        <div class="orb" style="width:300px;height:300px;background:rgba(30,58,138,0.15);filter:blur(60px);top:-80px;right:-80px;"></div>
+        <div class="svc-icon">⌘</div>
+        <h3 style="font-size:26px;font-weight:700;margin-bottom:8px;">Custom Web Apps</h3>
+        <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;max-width:480px;">SaaS dashboards, internal tools, marketplaces. Next.js + TypeScript + Postgres.</p>
+        <div class="code-mock">
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ef4444;"></div>
+            <div class="code-dot" style="background:#f59e0b;"></div>
+            <div class="code-dot" style="background:#22c55e;"></div>
+          </div>
+          <span style="color:#f472b6;">export async function </span><span style="color:#93c5fd;">GET</span>() {<br/>
+          &nbsp;&nbsp;<span style="color:#f472b6;">const</span> data = <span style="color:#f472b6;">await</span> db.users.<span style="color:#93c5fd;">findMany</span>();<br/>
+          &nbsp;&nbsp;<span style="color:#f472b6;">return</span> <span style="color:#93c5fd;">Response</span>.<span style="color:#93c5fd;">json</span>(data);<br/>
+          }
+        </div>
+      </div>
+      <div class="card svc-card"><div class="svc-icon">◻</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">Mobile Apps</h3><p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">iOS & Android via React Native. One codebase, flawless UX.</p></div>
+      <div class="card svc-card"><div class="svc-icon">⬡</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">Product Engineering</h3><p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Embedded senior engineers. Feature work, refactors, shipping cadence.</p></div>
+      <div class="card svc-card"><div class="svc-icon">◈</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">Marketing Sites</h3><p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">Conversion-tuned landing pages. Fast, beautiful, accessible.</p></div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-band">
+  <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);max-width:800px;">
+    <div><div class="stat-val">50+</div><div class="stat-label">Products shipped</div></div>
+    <div><div class="stat-val">98%</div><div class="stat-label">Client retention</div></div>
+    <div><div class="stat-val">6 wks</div><div class="stat-label">Avg time to MVP</div></div>
+  </div>
+</div>
+
+<!-- Process -->
+<section id="process">
+  <div class="container">
+    <div style="text-align:center;max-width:640px;margin:0 auto 64px;">
+      <div class="section-tag"><span></span>How we work</div>
+      <h2 class="sec-h">Idea to <span class="grad-em">production</span><br/>in 4 steps.</h2>
+      <p style="color:rgba(255,255,255,0.5);line-height:1.7;">No agency theatre. Clear sprints with weekly demos.</p>
+    </div>
+    <div class="process-grid">
+      <div class="card" style="padding:28px;"><div style="display:flex;align-items:center;margin-bottom:16px;"><div class="step-num">01</div><span style="font-size:11px;color:rgba(255,255,255,0.35);">Week 1</span></div><h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Discovery</h3><p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">60-min call → written brief → fixed proposal in 48h.</p></div>
+      <div class="card" style="padding:28px;"><div style="display:flex;align-items:center;margin-bottom:16px;"><div class="step-num">02</div><span style="font-size:11px;color:rgba(255,255,255,0.35);">Week 1–2</span></div><h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Design</h3><p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">Clickable Figma prototypes. Iterate until it's right.</p></div>
+      <div class="card" style="padding:28px;"><div style="display:flex;align-items:center;margin-bottom:16px;"><div class="step-num">03</div><span style="font-size:11px;color:rgba(255,255,255,0.35);">Week 2–6</span></div><h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Build</h3><p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">Weekly Loom demos. Live staging every Friday.</p></div>
+      <div class="card" style="padding:28px;"><div style="display:flex;align-items:center;margin-bottom:16px;"><div class="step-num">04</div><span style="font-size:11px;color:rgba(255,255,255,0.35);">Ongoing</span></div><h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Launch</h3><p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">Production deploy + 60 days support. Retainer optional.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Work -->
+<section id="work">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:16px;">
+      <div>
+        <div class="section-tag"><span></span>Recent work</div>
+        <h2 class="sec-h">Products clients<br/><span class="grad-em">are proud of.</span></h2>
+      </div>
+      <a href="#contact" style="font-size:14px;color:rgba(255,255,255,0.55);text-decoration:none;border:1px solid rgba(255,255,255,0.1);padding:10px 20px;border-radius:12px;background:rgba(255,255,255,0.04);transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.04)'">Start a project →</a>
+    </div>
+    <div class="work-grid">
+      <div class="card" style="padding:24px;">
+        <div class="work-thumb" style="background:linear-gradient(135deg,#0f2027,#1e3a8a,#2563eb);">
+          <div class="dot-pattern"></div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;">🤖</div>
+          <div class="work-thumb-overlay"><div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;">Crypto & Markets</div><div style="font-size:13px;font-weight:600;">Stock &amp; Crypto Bot — Telegram Insights</div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;">TradePulse Bot</div><div style="font-size:13px;color:rgba(255,255,255,0.45);margin-top:2px;">Real-time market alerts on Telegram</div></div><span style="font-size:12px;color:rgba(255,255,255,0.3);">2026</span></div>
+      </div>
+      <div class="card" style="padding:24px;">
+        <div class="work-thumb" style="background:linear-gradient(135deg,#4338ca,#7c3aed,#a855f7);">
+          <div class="dot-pattern"></div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;">👥</div>
+          <div class="work-thumb-overlay"><div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;">SaaS Platform</div><div style="font-size:13px;font-weight:600;">Team Management &amp; Activity Viewer</div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;">TeamTrack</div><div style="font-size:13px;color:rgba(255,255,255,0.45);margin-top:2px;">Manage teams, track activity in real time</div></div><span style="font-size:12px;color:rgba(255,255,255,0.3);">2026</span></div>
+      </div>
+      <div class="card" style="padding:24px;">
+        <div class="work-thumb" style="background:linear-gradient(135deg,#065f46,#10b981,#34d399);">
+          <div class="dot-pattern"></div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;">🛒</div>
+          <div class="work-thumb-overlay"><div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;">E-Commerce</div><div style="font-size:13px;font-weight:600;">Business Website to Sell Products</div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:600;">ShopReady</div><div style="font-size:13px;color:rgba(255,255,255,0.45);margin-top:2px;">Full e-commerce storefront &amp; checkout</div></div><span style="font-size:12px;color:rgba(255,255,255,0.3);">2025</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing" style="position:relative;">
+  <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:#1e3a8a;filter:blur(140px);opacity:.18;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
+  <div class="container" style="max-width:900px;position:relative;">
+    <div style="text-align:center;margin-bottom:56px;">
+      <div class="section-tag"><span></span>Pricing</div>
+      <h2 class="sec-h">Fully <span class="grad-em">custom</span> to your project.</h2>
+      <p style="color:rgba(255,255,255,0.5);line-height:1.7;max-width:520px;margin:0 auto;">No rigid packages. Every engagement is scoped to your exact needs — you pay for what you actually need.</p>
+    </div>
+    <div class="pricing-card">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;"></div>
+      <div class="pricing-inner">
+        <div>
+          <div style="display:inline-flex;padding:4px 12px;border-radius:999px;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.25);font-size:11px;color:#93c5fd;font-weight:600;margin-bottom:24px;">Custom Engagement</div>
+          <div class="pricing-title">Let's talk<span style="color:#60a5fa;">.</span></div>
+          <p style="color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:32px;font-size:15px;">Share your idea, budget & timeline. We'll scope it honestly and send a fixed proposal in 48 hours — no surprises, ever.</p>
+          <a href="#contact" class="btn-white" style="display:inline-flex;">Send an inquiry →</a>
+          <p style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">No commitment · Reply within 24h</p>
+        </div>
+        <div>
+          <p style="font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;">Always included</p>
+          <ul class="feature-list">
+            <li class="feature-item"><span class="check">✓</span>Web apps, mobile apps & marketing sites</li>
+            <li class="feature-item"><span class="check">✓</span>Dedicated senior engineers — no juniors</li>
+            <li class="feature-item"><span class="check">✓</span>Fixed scope + transparent milestones</li>
+            <li class="feature-item"><span class="check">✓</span>Weekly demo & live staging URL</li>
+            <li class="feature-item"><span class="check">✓</span>60 days post-launch support</li>
+            <li class="feature-item"><span class="check">✓</span>Full code ownership from day one</li>
+            <li class="feature-item"><span class="check">✓</span>NDA signed before discovery call</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Referral Program -->
+<section id="referral" style="padding:96px 0;position:relative;overflow:hidden;">
+  <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:#854d0e;filter:blur(140px);opacity:.15;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
+  <div class="container" style="max-width:1000px;position:relative;">
+    <div style="text-align:center;margin-bottom:56px;">
+      <div class="section-tag"><span style="background:#facc15;box-shadow:0 0 6px #facc15;"></span>Referral Program</div>
+      <h2 class="sec-h">Refer a client.<br/>Earn <span style="background:linear-gradient(135deg,#facc15,#f59e0b);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">5–10% commission.</span></h2>
+      <p style="color:rgba(255,255,255,0.5);line-height:1.7;max-width:520px;margin:0 auto;">Know someone who needs a web app, mobile app, or software product? Send them our way — when they sign a project, you earn a commission. No cap, no fine print.</p>
+    </div>
+
+    <!-- How it works -->
+    <div class="referral-steps" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px;">
+      <div class="card" style="padding:28px;text-align:center;">
+        <div style="font-size:36px;margin-bottom:16px;">💬</div>
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">1. Connect us</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">Introduce your contact to Evokira over WhatsApp or email. That's it.</p>
+      </div>
+      <div class="card" style="padding:28px;text-align:center;">
+        <div style="font-size:36px;margin-bottom:16px;">🤝</div>
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">2. We close the deal</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">We handle the whole sales & delivery process. You don't need to do anything else.</p>
+      </div>
+      <div class="card" style="padding:28px;text-align:center;">
+        <div style="font-size:36px;margin-bottom:16px;">💸</div>
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">3. You get paid</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">5–10% of the project value, paid to you once the client makes their first payment.</p>
+      </div>
+    </div>
+
+    <!-- Commission card -->
+    <div style="border-radius:24px;padding:40px 48px;background:linear-gradient(160deg,rgba(133,77,14,0.2),rgba(120,53,15,0.05));border:1px solid rgba(250,204,21,0.25);position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:40px 40px;"></div>
+      <div class="referral-commission" style="position:relative;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
+        <div>
+          <div style="font-size:clamp(36px,4vw,56px);font-weight:800;letter-spacing:-.04em;margin-bottom:8px;">
+            5–10%<span style="color:#facc15;">.</span>
+          </div>
+          <p style="color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:8px;font-size:15px;">On every project you refer. A <strong style="color:#fff;">$20k project</strong> = up to <strong style="color:#facc15;">$2,000 for you.</strong></p>
+          <p style="color:rgba(255,255,255,0.4);font-size:13px;">Commission rate depends on project size. Paid within 7 days of client's first payment.</p>
+        </div>
+        <div>
+          <ul style="list-style:none;padding:0;margin:0 0 28px;display:flex;flex-direction:column;gap:12px;">
+            <li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,0.75);"><span style="color:#facc15;font-size:15px;margin-top:1px;">✓</span>No limit on how many clients you refer</li>
+            <li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,0.75);"><span style="color:#facc15;font-size:15px;margin-top:1px;">✓</span>Works for friends, colleagues, your network</li>
+            <li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,0.75);"><span style="color:#facc15;font-size:15px;margin-top:1px;">✓</span>No formal agreement needed to start</li>
+            <li style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,0.75);"><span style="color:#facc15;font-size:15px;margin-top:1px;">✓</span>Paid via bank transfer / UPI</li>
+          </ul>
+          <a href="https://wa.me/918010496134?text=Hi%2C%20I%27m%20interested%20in%20the%20Evokira%20referral%20program!" target="_blank" class="btn-white" style="display:inline-flex;align-items:center;gap:8px;">
+            Join the referral program →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container" style="max-width:720px;">
+    <div style="text-align:center;margin-bottom:56px;">
+      <div class="section-tag"><span></span>FAQ</div>
+      <h2 class="sec-h">Got <span class="grad-em">questions?</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="card faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">How fast can you start?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer open">2–3 week lead time. Designs by end of week one after kickoff.</div>
+      </div>
+      <div class="card faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">What stack do you use?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">Next.js, TypeScript, React Native, Postgres, Supabase, Vercel, AWS. Boring, proven, production-grade.</div>
+      </div>
+      <div class="card faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Do I own the code?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">100%. The repo lives in your GitHub org from day one.</div>
+      </div>
+      <div class="card faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Changes after launch?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">60 days support included. Monthly retainer available after.</div>
+      </div>
+      <div class="card faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Do you sign NDAs?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">Yes — yours or our mutual NDA before any sensitive details are shared.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact / Inquiry Form -->
+<section id="contact" style="position:relative;overflow:hidden;">
+  <div style="position:absolute;width:700px;height:700px;border-radius:50%;background:#1e3a8a;filter:blur(150px);opacity:.18;top:-200px;left:50%;transform:translateX(-50%);pointer-events:none;"></div>
+  <div class="form-wrap">
+    <div style="text-align:center;margin-bottom:56px;">
+      <div class="section-tag"><span></span>Get in touch</div>
+      <h2 class="sec-h">Tell us about your <span class="grad-em">project.</span></h2>
+      <p style="color:rgba(255,255,255,0.5);line-height:1.7;">Fill in the details — we'll reply within 24 hours with a clear plan.</p>
+    </div>
+
+    <!-- Success state -->
+    <div class="card success-box" id="successBox">
+      <div class="success-emoji">🎉</div>
+      <div class="success-h">We got your inquiry!</div>
+      <p class="success-p">We'll reply to <strong id="successEmail" style="color:#93c5fd;"></strong> within 24 hours with next steps.</p>
+      <button class="btn-again" onclick="resetForm()">Submit another</button>
+    </div>
+
+    <!-- Form -->
+    <div class="card form-card" id="formCard">
+      <form id="inquiryForm" onsubmit="submitForm(event)">
+        <div style="display:flex;flex-direction:column;gap:28px;">
+
+          <!-- Name + Email -->
+          <div class="form-grid2">
+            <div>
+              <label class="form-label">Full name *</label>
+              <input class="form-input" type="text" id="f_name" placeholder="Jane Smith" required/>
+            </div>
+            <div>
+              <label class="form-label">Email address *</label>
+              <input class="form-input" type="email" id="f_email" placeholder="jane@company.com" required/>
+            </div>
+          </div>
+
+          <!-- Service -->
+          <div>
+            <label class="form-label">What do you need? *</label>
+            <div class="pills" id="pills_service">
+              <button type="button" class="pill" onclick="selectPill(this,'service')">Web App</button>
+              <button type="button" class="pill" onclick="selectPill(this,'service')">Mobile App</button>
+              <button type="button" class="pill" onclick="selectPill(this,'service')">Marketing Site</button>
+              <button type="button" class="pill" onclick="selectPill(this,'service')">Product Engineering</button>
+              <button type="button" class="pill" onclick="selectPill(this,'service')" style="border-color:rgba(250,204,21,0.4);color:rgba(250,204,21,0.8);">🤝 Referral Partner</button>
+              <button type="button" class="pill" onclick="selectPill(this,'service')">Other</button>
+            </div>
+            <input type="hidden" id="f_service"/>
+          </div>
+
+          <!-- Budget -->
+          <div>
+            <label class="form-label">Estimated budget</label>
+            <div class="pills" id="pills_budget">
+              <button type="button" class="pill" onclick="selectPill(this,'budget')">Under $5k</button>
+              <button type="button" class="pill" onclick="selectPill(this,'budget')">$5k – $15k</button>
+              <button type="button" class="pill" onclick="selectPill(this,'budget')">$15k – $50k</button>
+              <button type="button" class="pill" onclick="selectPill(this,'budget')">$50k+</button>
+              <button type="button" class="pill" onclick="selectPill(this,'budget')">Let's discuss</button>
+            </div>
+            <input type="hidden" id="f_budget"/>
+          </div>
+
+          <!-- Timeline -->
+          <div>
+            <label class="form-label">Timeline</label>
+            <div class="pills" id="pills_timeline">
+              <button type="button" class="pill" onclick="selectPill(this,'timeline')">ASAP</button>
+              <button type="button" class="pill" onclick="selectPill(this,'timeline')">1–3 months</button>
+              <button type="button" class="pill" onclick="selectPill(this,'timeline')">3–6 months</button>
+              <button type="button" class="pill" onclick="selectPill(this,'timeline')">Flexible</button>
+            </div>
+            <input type="hidden" id="f_timeline"/>
+          </div>
+
+          <!-- Message -->
+          <div>
+            <label class="form-label">About your project *</label>
+            <textarea class="form-textarea" id="f_message" rows="5" placeholder="Describe what you want to build, your target users, any existing tech, and anything else relevant…" required></textarea>
+          </div>
+
+          <div class="error-box" id="errorBox">
+            Something went wrong. Please email us directly at
+            <a href="mailto:evokira.services@gmail.com" style="color:#fca5a5;">evokira.services@gmail.com</a>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">Send inquiry →</button>
+
+          <div style="display:flex;align-items:center;gap:12px;margin:4px 0;">
+            <div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div>
+            <span style="font-size:12px;color:rgba(255,255,255,0.3);">or reach us directly</span>
+            <div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div>
+          </div>
+
+          <a href="https://wa.me/918010496134" target="_blank" class="btn-ghost" style="display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;">
+            Chat with us
+          </a>
+
+          <p class="form-note">Form sends directly to evokira.services@gmail.com · Reply within 24h</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <a href="#" class="nav-logo-text" style="display:block;margin-bottom:16px;font-size:18px;">EVOKIRA</a>
+      <p>Custom software, web & mobile apps for ambitious teams. Made with care, shipped on time.</p>
+      <a href="mailto:evokira.services@gmail.com" style="margin-top:14px;color:rgba(96,165,250,0.75);">evokira.services@gmail.com</a>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="#services">Web Apps</a>
+      <a href="#services">Mobile Apps</a>
+      <a href="#services">Marketing Sites</a>
+
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#referral">Referral</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="mailto:evokira.services@gmail.com">evokira.services@gmail.com</a>
+      <a href="https://wa.me/918010496134" target="_blank">Chat with us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Evokira. All rights reserved.</span>
+    <div style="display:flex;gap:24px;"><span>Privacy</span><span>Terms</span><span>Security</span></div>
+  </div>
+  <div class="footer-wordmark">EVOKIRA</div>
+</footer>
+
+<script>
+// ── FAQ toggle ────────────────────────────────────────────────────────────────
+function toggleMenu(){
+  const m=document.getElementById("mobileMenu");
+  m.classList.toggle("open");
+}
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const icon   = btn.querySelector('.faq-icon');
+  const isOpen = answer.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('open'));
+  if (!isOpen) {
+    answer.classList.add('open');
+    icon.classList.add('open');
+  }
+}
+
+// ── Pill selector ─────────────────────────────────────────────────────────────
+function selectPill(el, field) {
+  el.closest('.pills').querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('f_' + field).value = el.textContent;
+}
+
+// ── Form submit ───────────────────────────────────────────────────────────────
+async function submitForm(e) {
+  e.preventDefault();
+  const service = document.getElementById('f_service').value;
+  if (!service) { alert('Please select what you need.'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  document.getElementById('errorBox').style.display = 'none';
+
+  try {
+    const res = await fetch('/api/send', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name:     document.getElementById('f_name').value,
+        email:    document.getElementById('f_email').value,
+        service,
+        budget:   document.getElementById('f_budget').value   || 'Not specified',
+        timeline: document.getElementById('f_timeline').value || 'Not specified',
+        message:  document.getElementById('f_message').value,
+      }),
+    });
+    if (!res.ok) throw new Error();
+    document.getElementById('successEmail').textContent = document.getElementById('f_email').value;
+    document.getElementById('formCard').style.display   = 'none';
+    document.getElementById('successBox').style.display = 'block';
+  } catch {
+    document.getElementById('errorBox').style.display = 'block';
+    btn.textContent = 'Send inquiry →';
+    btn.disabled = false;
+  }
+}
+
+function resetForm() {
+  document.getElementById('inquiryForm').reset();
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  ['service','budget','timeline'].forEach(f => document.getElementById('f_'+f).value='');
+  document.getElementById('successBox').style.display = 'none';
+  document.getElementById('formCard').style.display   = 'block';
+  document.getElementById('submitBtn').textContent    = 'Send inquiry →';
+  document.getElementById('submitBtn').disabled       = false;
+}
+</script>
+</body>
+</html>
