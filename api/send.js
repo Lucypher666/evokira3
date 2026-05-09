@@ -1,8 +1,7 @@
-const { Resend } = require("resend");
+export default async function handler(req, res) {
+  const { Resend } = require("resend");
+  const resend = new Resend("re_CYpi5Eqp_G8u66YajwmcEtFSUsecUK1mu");
 
-const resend = new Resend("re_CYpi5Eqp_G8u66YajwmcEtFSUsecUK1mu");
-
-module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
