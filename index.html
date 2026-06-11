@@ -260,8 +260,27 @@ footer{border-top:1px solid rgba(255,255,255,0.06);padding:64px 24px 40px;}
 .timeline-item.visible .timeline-dot {
   background: #fff;
   border-color: #60a5fa;
-  box-shadow: 0 0 15px #60a5fa, 0 0 30px rgba(96,165,250,0.6);
+  box-shadow: 0 0 15px #60a5fa, 0 0 30px rgba(96, 165, 250, 0.6);
   transform: scale(1.2);
+}
+/* Active Step Highlight */
+.timeline-item.active-step .timeline-card {
+  border-color: rgba(96, 165, 250, 0.8);
+  background: linear-gradient(180deg, rgba(30, 58, 138, 0.25), rgba(255, 255, 255, 0.02));
+  box-shadow: 0 0 40px rgba(30, 58, 138, 0.3);
+  transform: translateY(-5px);
+}
+.timeline-item.active-step .step-num {
+  background: #60a5fa;
+  color: #fff;
+  border-color: #fff;
+  box-shadow: 0 0 15px rgba(96,165,250,0.5);
+}
+.timeline-item.active-step h3 {
+  color: #93c5fd;
+}
+.timeline-item.active-step p {
+  color: rgba(255,255,255,0.8) !important;
 }
 .timeline-item:nth-child(odd) .timeline-dot {
   right: -6px;
@@ -986,6 +1005,18 @@ window.addEventListener('scroll', () => {
   percentage = Math.max(0, Math.min(1, percentage));
   
   progress.style.height = (percentage * 100) + '%';
+
+  // Highlight active step
+  const items = document.querySelectorAll('.timeline-item');
+  items.forEach(item => {
+    const itemRect = item.getBoundingClientRect();
+    // If the tip of the line (windowHeight/2) is past the top of the item dot area
+    if (itemRect.top < windowHeight / 2 + 20 && itemRect.bottom > windowHeight / 2 - 20) {
+      item.classList.add('active-step');
+    } else {
+      item.classList.remove('active-step');
+    }
+  });
 });
 </script>
 </body>
