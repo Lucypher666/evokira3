@@ -47,86 +47,107 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08080B;color:#fff;-web
 .btn-nav{background:rgba(30,58,138,0.6);color:#fff;padding:8px 20px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;border:1px solid rgba(96,165,250,0.3);transition:all .2s;}
 .btn-nav:hover{background:rgba(30,58,138,0.9);border-color:rgba(96,165,250,0.6);}
 
-/* Availability Widget */
-.status-widget {
+/* Chatbot Widget */
+.chat-wrapper {
   position: fixed;
   bottom: 24px;
   right: 24px;
   z-index: 1000;
-  background: rgba(13, 13, 17, 0.7);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 12px 16px;
-  border-radius: 16px;
+  font-family: inherit;
+}
+.chat-launcher {
+  width: 56px;
+  height: 56px;
+  background: #1e3a8a;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  cursor: pointer;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-  text-decoration: none;
-}
-.status-widget:hover {
-  transform: translateY(-4px);
-  background: rgba(30, 58, 138, 0.4);
-  border-color: rgba(96, 165, 250, 0.3);
-}
-.status-dot-pulse {
-  width: 8px;
-  height: 8px;
-  background: #4ade80;
-  border-radius: 50%;
   position: relative;
 }
-.status-dot-pulse::after {
-  content: '';
+.chat-launcher:hover {
+  transform: scale(1.05) translateY(-2px);
+  background: #1e40af;
+}
+.chat-launcher svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+.chat-badge {
   position: absolute;
-  inset: -4px;
+  top: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  background: #4ade80;
+  border: 2px solid #08080B;
   border-radius: 50%;
-  border: 2px solid #4ade80;
-  animation: pulse-out 2s infinite;
 }
-@keyframes pulse-out {
-  0% { transform: scale(0.5); opacity: 1; }
-  100% { transform: scale(2); opacity: 0; }
+.chat-window {
+  position: absolute;
+  bottom: 72px;
+  right: 0;
+  width: 320px;
+  background: rgba(13, 13, 17, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  transform-origin: bottom right;
+  animation: chat-open 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
-.status-text {
+.chat-window.open { display: flex; }
+@keyframes chat-open {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.chat-header {
+  padding: 20px;
+  background: linear-gradient(90deg, rgba(30, 58, 138, 0.5), transparent);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.chat-header-title { font-weight: 700; font-size: 15px; display: block; }
+.chat-header-status { font-size: 12px; color: #4ade80; display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.chat-body { padding: 20px; max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.chat-msg {
+  padding: 10px 14px;
+  border-radius: 14px;
   font-size: 13px;
+  line-height: 1.5;
+  max-width: 85%;
+}
+.chat-msg.bot { background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.9); align-self: flex-start; border-bottom-left-radius: 4px; }
+.chat-footer { padding: 16px; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 8px; }
+.chat-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
   font-weight: 600;
-  color: #fff;
-  letter-spacing: -0.01em;
-}
-.status-sub {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-  display: block;
-}
-.nav-status {
+  font-size: 13px;
+  cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 4px 10px;
-  background: rgba(74, 222, 128, 0.05);
-  border: 1px solid rgba(74, 222, 128, 0.15);
-  border-radius: 99px;
-  margin-right: 16px;
+  transition: all 0.2s;
+  text-decoration: none;
 }
-.nav-status-dot {
-  width: 5px;
-  height: 5px;
-  background: #4ade80;
-  border-radius: 50%;
-}
-.nav-status-text {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #4ade80;
-}
+.chat-btn-primary { background: #fff; color: #08080B; }
+.chat-btn-primary:hover { background: #f3f4f6; }
+.chat-btn-secondary { background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(255, 255, 255, 0.1); }
+.chat-btn-secondary:hover { background: rgba(255, 255, 255, 0.08); }
 
-@media(max-width: 768px) {
-  .nav-status { display: none; }
-  .status-widget { bottom: 16px; right: 16px; padding: 10px 14px; }
+@media(max-width: 480px) {
+  .chat-window { width: calc(100vw - 48px); right: -12px; }
 }
 
 /* Grid bg */
@@ -982,7 +1003,41 @@ h2.sec-h{font-size:clamp(28px,8vw,48px);}
   <div class="footer-wordmark">EVOKIRA</div>
 </footer>
 
+<!-- Chatbot Wrapper -->
+<div class="chat-wrapper">
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <span class="chat-header-title">Evokira Assistant</span>
+      <div class="chat-header-status">
+        <div class="nav-status-dot"></div>
+        Online & Accepting Projects
+      </div>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="chat-msg bot">Hi there! 👋</div>
+      <div class="chat-msg bot">Looking to build a custom web or mobile app? I'm here to help.</div>
+    </div>
+    <div class="chat-footer">
+      <a href="https://wa.me/918010496134" target="_blank" class="chat-btn chat-btn-primary">
+        <svg style="width:16px;height:16px;fill:currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793 0-.852.448-1.271.607-1.445.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.331.101.151.448.741.96 1.198.66.589 1.216.772 1.389.864.173.091.274.076.376-.04.101-.116.433-.506.548-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+        Chat on WhatsApp
+      </a>
+      <a href="mailto:evokira.services@gmail.com" class="chat-btn chat-btn-secondary">Send an Email</a>
+    </div>
+  </div>
+  <div class="chat-launcher" onclick="toggleChat()">
+    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    <div class="chat-badge"></div>
+  </div>
+</div>
+
 <script>
+// ── Chatbot Toggle ────────────────────────────────────────────────────────────
+function toggleChat() {
+  const win = document.getElementById('chatWindow');
+  win.classList.toggle('open');
+}
+
 // ── FAQ toggle ────────────────────────────────────────────────────────────────
 function toggleMenu(){
   const m=document.getElementById("mobileMenu");
