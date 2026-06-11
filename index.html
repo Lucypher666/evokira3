@@ -187,6 +187,98 @@ footer{border-top:1px solid rgba(255,255,255,0.06);padding:64px 24px 40px;}
 .footer-col a,.footer-col p{font-size:13px;color:rgba(255,255,255,0.4);display:block;margin-bottom:10px;text-decoration:none;cursor:pointer;transition:color .2s;}
 .footer-col a:hover{color:rgba(255,255,255,0.75);}
 
+/* Process Timeline */
+.process-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  padding: 40px 0;
+}
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255,255,255,0.05);
+  transform: translateX(-50%);
+}
+.timeline-progress {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #1e3a8a, #60a5fa);
+  transform: translateX(-50%);
+  height: 0;
+  transition: height 0.1s linear;
+  box-shadow: 0 0 15px rgba(96,165,250,0.5);
+}
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 20px 40px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.timeline-item:nth-child(odd) {
+  left: 0;
+  text-align: right;
+}
+.timeline-item:nth-child(even) {
+  left: 50%;
+  text-align: left;
+}
+.timeline-dot {
+  position: absolute;
+  top: 40px;
+  width: 12px;
+  height: 12px;
+  background: #08080B;
+  border: 2px solid rgba(96,165,250,0.5);
+  border-radius: 50%;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+.timeline-item.visible .timeline-dot {
+  background: #60a5fa;
+  border-color: #fff;
+  box-shadow: 0 0 10px #60a5fa;
+}
+.timeline-item:nth-child(odd) .timeline-dot {
+  right: -6px;
+}
+.timeline-item:nth-child(even) .timeline-dot {
+  left: -6px;
+}
+.timeline-card {
+  display: inline-block;
+  text-align: left;
+}
+
+@media(max-width: 768px) {
+  .timeline-line, .timeline-progress {
+    left: 20px;
+    transform: none;
+  }
+  .timeline-item {
+    width: 100%;
+    padding-left: 50px;
+    padding-right: 0;
+    text-align: left !important;
+    left: 0 !important;
+  }
+  .timeline-dot {
+    left: 14px !important;
+    right: auto !important;
+  }
+}
+
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:#08080B;}
@@ -405,11 +497,61 @@ h2.sec-h{font-size:clamp(28px,8vw,48px);}
       <h2 class="sec-h">Idea to <span class="grad-em">production</span><br/>in 4 steps.</h2>
       <p style="color:rgba(255,255,255,0.5);line-height:1.7;">No agency theatre. Clear sprints with weekly demos.</p>
     </div>
-    <div class="process-grid">
-      <div class="card" style="padding:28px;"><div style="display:flex;align-items:center;margin-bottom:16px;"><div class="step-num">01</div><span style="font-size:11px;color:rgba(255,255,255,0.35);">Week 1</span></div><h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Discovery</h3><p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">60-min call → written brief → fixed proposal in 48h.</p></div>
-      <div class="card" style="padding:28px;"><div style="display:flex;align-items:center;margin-bottom:16px;"><div class="step-num">02</div><span style="font-size:11px;color:rgba(255,255,255,0.35);">Week 1–2</span></div><h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Design</h3><p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">Clickable Figma prototypes. Iterate until it's right.</p></div>
-      <div class="card" style="padding:28px;"><div style="display:flex;align-items:center;margin-bottom:16px;"><div class="step-num">03</div><span style="font-size:11px;color:rgba(255,255,255,0.35);">Week 2–6</span></div><h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Build</h3><p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">Weekly Loom demos. Live staging every Friday.</p></div>
-      <div class="card" style="padding:28px;"><div style="display:flex;align-items:center;margin-bottom:16px;"><div class="step-num">04</div><span style="font-size:11px;color:rgba(255,255,255,0.35);">Ongoing</span></div><h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Launch</h3><p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">Production deploy + Free 30 days support after deployment. Retainer optional.</p></div>
+    <div class="process-container">
+      <div class="timeline-line"></div>
+      <div class="timeline-progress" id="timelineProgress"></div>
+      
+      <!-- Step 1 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card timeline-card" style="padding:28px;">
+          <div style="display:flex;align-items:center;margin-bottom:16px;">
+            <div class="step-num">01</div>
+            <span style="font-size:11px;color:rgba(255,255,255,0.35);">Week 1</span>
+          </div>
+          <h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Discovery</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">60-min call → written brief → fixed proposal in 48h.</p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card timeline-card" style="padding:28px;">
+          <div style="display:flex;align-items:center;margin-bottom:16px;">
+            <div class="step-num">02</div>
+            <span style="font-size:11px;color:rgba(255,255,255,0.35);">Week 1–2</span>
+          </div>
+          <h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Design</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">Clickable Figma prototypes. Iterate until it's right.</p>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card timeline-card" style="padding:28px;">
+          <div style="display:flex;align-items:center;margin-bottom:16px;">
+            <div class="step-num">03</div>
+            <span style="font-size:11px;color:rgba(255,255,255,0.35);">Week 2–6</span>
+          </div>
+          <h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Build</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">Weekly Loom demos. Live staging every Friday.</p>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card timeline-card" style="padding:28px;">
+          <div style="display:flex;align-items:center;margin-bottom:16px;">
+            <div class="step-num">04</div>
+            <span style="font-size:11px;color:rgba(255,255,255,0.35);">Ongoing</span>
+          </div>
+          <h3 style="font-size:17px;font-weight:700;margin-bottom:8px;">Launch</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;">Production deploy + Free 30 days support after deployment. Retainer optional.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -808,6 +950,30 @@ function resetForm() {
   document.getElementById('submitBtn').textContent    = 'Send inquiry →';
   document.getElementById('submitBtn').disabled       = false;
 }
+
+// ── Timeline Scroll Animation ────────────────────────────────────────────────
+const obsOptions = { threshold: 0.2 };
+const timelineObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, obsOptions);
+
+document.querySelectorAll('.timeline-item').forEach(item => timelineObs.observe(item));
+
+window.addEventListener('scroll', () => {
+  const container = document.querySelector('.process-container');
+  const progress  = document.getElementById('timelineProgress');
+  if (!container || !progress) return;
+
+  const rect = container.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+  
+  let percentage = (windowHeight / 2 - rect.top) / rect.height;
+  percentage = Math.max(0, Math.min(1, percentage));
+  
+  progress.style.height = (percentage * 100) + '%';
+});
 </script>
 </body>
 </html>
