@@ -514,9 +514,9 @@ h2.sec-h{font-size:clamp(28px,8vw,48px);}
 <!-- Stats -->
 <div class="stats-band">
   <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);max-width:800px;">
-    <div><div class="stat-val">50+</div><div class="stat-label">Products shipped</div></div>
-    <div><div class="stat-val">98%</div><div class="stat-label">Client retention</div></div>
-    <div><div class="stat-val">6 wks</div><div class="stat-label">Avg time to MVP</div></div>
+    <div><div class="stat-val"><span class="count-up" data-target="50">0</span>+</div><div class="stat-label">Products shipped</div></div>
+    <div><div class="stat-val"><span class="count-up" data-target="98">0</span>%</div><div class="stat-label">Client retention</div></div>
+    <div><div class="stat-val"><span class="count-up" data-target="6">0</span> wks</div><div class="stat-label">Avg time to MVP</div></div>
   </div>
 </div>
 
@@ -1017,6 +1017,41 @@ window.addEventListener('scroll', () => {
     }
   });
 });
+
+// ── Count-Up Animation ───────────────────────────────────────────────────────
+const countObsOptions = { threshold: 0.5 };
+const countUpObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.getAttribute('data-target'));
+      const duration = 2000; // 2 seconds
+      const startTime = performance.now();
+      
+      const animate = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function: easeOutQuart
+        const easedProgress = 1 - Math.pow(1 - progress, 4);
+        const currentValue = Math.floor(easedProgress * target);
+        
+        el.textContent = currentValue;
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          el.textContent = target; // Ensure it finishes exactly at target
+        }
+      };
+      
+      requestAnimationFrame(animate);
+      countUpObs.unobserve(el); // Only animate once
+    }
+  });
+}, countObsOptions);
+
+document.querySelectorAll('.count-up').forEach(el => countUpObs.observe(el));
 </script>
 </body>
 </html>
