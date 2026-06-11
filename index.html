@@ -8,6 +8,36 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-MFBGREEZ3Y');
+
+  // ── Custom Event Tracking ──────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    // Track Nav & Section Clicks
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function() {
+        const section = this.getAttribute('href').substring(1);
+        if (section) {
+          gtag('event', 'section_navigation', {
+            'section_id': section,
+            'link_text': this.textContent.trim()
+          });
+        }
+      });
+    });
+
+    // Track WhatsApp & Email Clicks
+    document.querySelectorAll('a[href^="https://wa.me"], a[href^="mailto:"]').forEach(link => {
+      link.addEventListener('click', function() {
+        gtag('event', 'contact_click', {
+          'method': this.getAttribute('href').startsWith('mailto') ? 'email' : 'whatsapp',
+          'location': this.closest('.chat-wrapper') ? 'chatbot' : 'page_content'
+        });
+      });
+    });
+  });
+
+  function trackChatOpen() {
+    gtag('event', 'chatbot_opened');
+  }
 </script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
