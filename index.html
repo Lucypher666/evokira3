@@ -39,106 +39,6 @@
     gtag('event', 'chatbot_opened');
   }
 </script>
-
-<!-- Three.js Library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-<script>
-// ── Liquid Glow Shader ───────────────────────────────────────────────────────
-let scene, camera, renderer, material, mesh;
-let mouse = new THREE.Vector2(0.5, 0.5);
-let targetMouse = new THREE.Vector2(0.5, 0.5);
-
-const vertexShader = `
-  varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    gl_Position = vec4(position, 1.0);
-  }
-`;
-
-const fragmentShader = `
-  precision highp float;
-  varying vec2 vUv;
-  uniform float uTime;
-  uniform vec2 uMouse;
-  uniform vec2 uResolution;
-
-  void main() {
-    vec2 uv = vUv;
-    
-    // Create liquid movement
-    float noise = sin(uv.x * 3.0 + uTime * 0.5) * cos(uv.y * 2.0 - uTime * 0.3);
-    vec3 color1 = vec3(0.03, 0.05, 0.15); // Deep Blue
-    vec3 color2 = vec3(0.08, 0.12, 0.3);  // Mid Blue
-    
-    // Mouse interaction
-    float dist = distance(uv, uMouse);
-    float glow = 0.04 / (dist + 0.15);
-    
-    vec3 finalColor = mix(color1, color2, noise * 0.5 + 0.5);
-    finalColor += vec3(0.37, 0.64, 0.98) * glow * 0.6; // Accent Light Blue
-    
-    gl_FragColor = vec4(finalColor, 1.0);
-  }
-`;
-
-function initCanvas() {
-  const container = document.getElementById('canvas-container');
-  if (!container) return;
-  
-  scene = new THREE.Scene();
-  camera = new THREE.Camera();
-  camera.position.z = 1;
-
-  const geometry = new THREE.PlaneGeometry(2, 2);
-  material = new THREE.ShaderMaterial({
-    uniforms: {
-      uTime: { value: 0 },
-      uMouse: { value: mouse },
-      uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
-    },
-    vertexShader,
-    fragmentShader
-  });
-
-  mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  container.appendChild(renderer.domElement);
-
-  window.addEventListener('mousemove', (e) => {
-    targetMouse.x = e.clientX / window.innerWidth;
-    targetMouse.y = 1.0 - (e.clientY / window.innerHeight);
-  });
-
-  window.addEventListener('resize', () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
-  });
-
-  animateCanvas();
-}
-
-function animateCanvas() {
-  requestAnimationFrame(animateCanvas);
-  mouse.x += (targetMouse.x - mouse.x) * 0.05;
-  mouse.y += (targetMouse.y - mouse.y) * 0.05;
-  
-  material.uniforms.uTime.value += 0.01;
-  material.uniforms.uMouse.value = mouse;
-  renderer.render(scene, camera);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.innerWidth > 768) {
-    initCanvas();
-  }
-});
-</script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Evokira — Custom Software, MVP & Digital Transformation for Startups</title>
@@ -636,8 +536,6 @@ h2.sec-h{font-size:clamp(28px,8vw,48px);}
 </style>
 </head>
 <body>
-
-<div id="canvas-container"></div>
 
 <!-- Nav -->
 <nav class="nav">
